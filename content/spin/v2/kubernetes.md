@@ -333,6 +333,10 @@ The containerd shim for Spin allows Kubernetes to appropriately schedule Spin ap
 
 Once the Spin App Container has been created, it can be pushed to an OCI repository, and then deployed to an appropriately configured kubernetes cluster.
 
+{{ tabs "deploy" }}
+
+{{ startTab "Spin K8s Plugin"}}
+
 ### Requirements
 
 The current Spin k8s plugin relies on Docker and Kubectl under the hood. It’s important that both of these tools be installed, the Docker service be running, and KUBECONFIG environment variable be configured to point to a kubeconfig file for the desired Kubernetes cluster.
@@ -494,3 +498,55 @@ The following command retrieves information about the service that gets deployed
 ```console
 $ spin k8s getsvc
 ```
+
+{{ blockEnd }}
+
+{{ startTab "Spin native deployment"}}
+
+### Requirements
+
+- Spin version > 2.0
+- Containerd 
+- spin shim > 0.10
+
+### Workflow
+
+The workflow is very similar to the workflow for Fermyon Cloud. 
+
+The k8s plugin handles all of the tasks necessary to build the docker container, push it to a repository and deploy it into production.
+
+Just like with Fermyon Cloud, when something changes with the application, the workflow is to iterate the version in the spin.toml file, and restart the sequence from spin build.
+
+### Detailed Explanation of Steps
+
+#### Spin New
+
+An optional command to use a template to create a new Spin App:
+
+<!-- @selectiveCpy -->
+
+```console
+$ spin new
+```
+
+#### Spin Build
+
+The following command builds a spin app:
+
+<!-- @selectiveCpy -->
+
+```console
+spin build
+```
+
+#### Spin Push
+
+The following command pushes the app to a repository:
+
+<!-- @selectiveCpy -->
+
+```console
+$ spin push docker.io/chrismatteson/test:0.1.5
+```
+
+{{ blockEnd }}
